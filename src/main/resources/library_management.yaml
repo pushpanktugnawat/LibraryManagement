@@ -1,0 +1,200 @@
+swagger: "2.0"
+info:
+  description: "This is a swagger Contract for Library Management."
+  version: "1.0.0"
+  title: "Library Management"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "puspanktugnawat@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost"
+tags:
+- name: "libraryManagement"
+  description: "Library Management"
+schemes:
+- "https"
+- "http"
+paths:
+  /book:
+    post:
+      tags:
+      - "libraryManagement"
+      summary: "Add a new book to the library"
+      description: ""
+      operationId: "addBook"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Book object that needs to be added to the library"
+        required: true
+        schema:
+          $ref: "#/definitions/Book"
+      responses:
+        405:
+          description: "Invalid input"
+    get:
+      tags:
+      - "libraryManagement"
+      summary: "Get books from library"
+      description: ""
+      operationId: "getBooks"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        405:
+          description: "Invalid input"
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Book"
+        400:
+          description: "Invalid status value"
+  /book/returnBook:
+    post:
+      tags:
+      - "libraryManagement"
+      summary: "Return a book from User to the library"
+      description: ""
+      operationId: "returnBook"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User can return Multiple Books to the Library at same time"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        405:
+          description: "Invalid input"
+  /book/borrowBook:
+    post:
+      tags:
+      - "libraryManagement"
+      summary: "A User can borrow multiple book from Library"
+      description: ""
+      operationId: "borrowBook"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "A User can borrow multiple book from Library"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        405:
+          description: "Invalid input"
+  /user:
+    post:
+      tags:
+      - "libraryManagement"
+      summary: "Add a new User for the library"
+      description: ""
+      operationId: "addUser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User object that needs to be introduced to the library"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        405:
+          description: "Invalid input"
+    get:
+      tags:
+      - "libraryManagement"
+      summary: "Get existing users"
+      description: ""
+      operationId: "getUsers"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        405:
+          description: "Invalid input"
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+        400:
+          description: "Invalid status value"
+
+definitions:
+  Book:
+    type: "object"
+    properties:
+      bookId:
+        type: "integer"
+        format: "int64"
+        description: "Unique Id for Each Book"
+        maxLength: 10
+      bookName:
+        type: "string"
+        description: "Name of the Book"
+      noOfCopies:
+        type: "integer"
+        format: "int32"
+        description: "Number of Copies present"
+        maxLength: 5
+      createdTime:
+        type: "string"
+        description: "Create time in DB"
+      author:
+        type: "string"
+        description: "Author of the Book"
+        maxLength: 100
+      isbn:
+        type: "string"
+        description: "ISBN Code for the book"
+        maxLength: 13
+  User:
+    type: "object"
+    properties:
+      userid:
+        type: "integer"
+        format: "int64"
+        description: "Unique Id for each user"
+        maxLength: 10
+      fullName:
+        type: "string"
+        description: "Full name of a User"
+        maxLength: 50
+      emailId:
+        type: "string"
+        description:  "Email Id of a User"
+        pattern:  '^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'
+        maxLength: 100
+      phoneNo:
+        type: "string"
+        description:  "Phone Number of a user"
+        maxLength: 13
+      bookIds:
+        type: "array"
+        items:
+          $ref: "#/definitions/Book"
+        description: "List of BookIds which User wants to select"
